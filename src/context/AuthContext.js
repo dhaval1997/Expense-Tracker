@@ -26,6 +26,7 @@ export const AuthContextProvider = ({ children }) => {
     const googleAuthProvider = new GoogleAuthProvider()
     return signInWithPopup(auth, googleAuthProvider)
   }
+  console.log(user.accessToken);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {

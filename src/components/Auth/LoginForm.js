@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import Card from "../Container/Card";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router";
-import GoogleButton from "react-google-button";
 
 const LoginForm = () => {
   const [isLogging, setIsLogging] = useState(true);
@@ -28,6 +27,7 @@ const LoginForm = () => {
       setError("");
       try {
         await logIn(email, password);
+        navigate('/home')
       } catch (err) {
         setError(err.message);
       }
