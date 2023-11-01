@@ -1,9 +1,12 @@
 import React from "react";
-import LoginForm from "./components/Auth/LoginForm";
 import { Route, Routes } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import ProtectedPage from "./pages/ProtectedPage";
 import Home from "./pages/Home";
+import UpdateProfile from "./pages/UpdateProfile";
+import Auth from "./pages/Auth";
+import RedirectPage from "./pages/RedirectPage";
+import Verify from "./pages/Verify";
 
 const App = () => {
   const { user } = useAuth();
@@ -11,14 +14,16 @@ const App = () => {
   return (
     <Routes>
       <Route
-        path="/home"
+        path="/"
         element={
           <ProtectedPage>
             <Home />
           </ProtectedPage>
         }
       />
-      <Route path="/" element={<LoginForm />} />
+      <Route path="/auth" element={<Auth />} />
+      <Route path="/verify" element={<Verify />} />
+      <Route path="/updateprofile" element={<UpdateProfile />} />
     </Routes>
   );
 };

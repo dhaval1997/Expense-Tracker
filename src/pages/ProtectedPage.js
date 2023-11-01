@@ -4,10 +4,13 @@ import { Navigate } from "react-router-dom";
 
 const ProtectedPage = ({ children }) => {
   let { user } = useAuth();
-  if (!user) {
-    return <Navigate to="/" />;
+  if (!user.accessToken) {
+    return <Navigate to="/auth" />;
   }
-  return children;
+   else if (!user.emailVerified) {
+    return <Navigate to="/verify" />;
+  }
+  return <div>{children}</div>;
 };
 
 export default ProtectedPage;

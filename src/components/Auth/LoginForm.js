@@ -12,7 +12,7 @@ const LoginForm = () => {
   const passwordRef = useRef();
   const confirmRef = useRef();
 
-  const { logIn, signUp } = useAuth();
+  const { logIn, signUp, forgotPassword } = useAuth();
 
   const toggleMode = () => {
     setIsLogging(!isLogging);
@@ -22,12 +22,12 @@ const LoginForm = () => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-
+  
     if (isLogging) {
       setError("");
       try {
         await logIn(email, password);
-        navigate('/home')
+        navigate('/');
       } catch (err) {
         setError(err.message);
       }
@@ -37,15 +37,22 @@ const LoginForm = () => {
         setError("");
         try {
           await signUp(email, password);
-          navigate('/login')
+          navigate('/auth');
         } catch (err) {
           setError(err.message);
         }
       } else {
-        alert("Password do not match");
+        alert("Password does not match");
       }
     }
   };
+  
+  const forgotPasswordHandler = () =>{
+    const userEmail = prompt("Enter your email:")
+    if(userEmail){
+      forgotPassword(userEmail)
+    }
+  }
 
   return (
     <Card>
@@ -99,7 +106,7 @@ const LoginForm = () => {
         </form>
         {isLogging && (
           <div className="text-center text-gray-700 hover:text-gray-900 font-medium">
-            <button className="p-1.5">Forgot Password?</button>
+            <button className="p-1.5" onClick={forgotPasswordHandler}>Forgot Password?</button>
           </div>
         )}
       </div>
