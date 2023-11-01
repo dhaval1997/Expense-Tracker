@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
   sendPasswordResetEmail,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -49,6 +50,17 @@ export const AuthContextProvider = ({ children }) => {
     }
     return false;
   };
+  const updateUserProfile = async (displayName, photoURL) => {
+    if (user) {
+      try {
+        await updateProfile(auth.currentUser, { displayName, photoURL });
+        setUser({ ...user, displayName, photoURL });
+      } catch (err) {
+        console.error("Error updating user profile", err);
+      }
+    }
+  };
+
   // const googleSignIn =()=>{
   //   const googleAuthProvider = new GoogleAuthProvider()
   //   return signInWithPopup(auth, googleAuthProvider)
@@ -65,7 +77,16 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
   return (
     <AuthContext.Provider
-      value={{ signUp, user, logIn, logOut, emailVerify, forgotPassword, verificationStatus}}
+      value={{
+        signUp,
+        user,
+        logIn,
+        logOut,
+        emailVerify,
+        forgotPassword,
+        verificationStatus,
+        updateUserProfile,
+      }}
     >
       {children}
     </AuthContext.Provider>
