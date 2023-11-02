@@ -19,7 +19,7 @@ const ProfileUpdate = () => {
   return (
     <Container>
       <NormalCard>
-        <h1 className="text-gray-600 text-center font-semibold">
+        <h1 className="text-gray-600 text-center p-4 font-semibold">
           Update Profile
         </h1>
         <form onSubmit={profileUpdateHandler}>

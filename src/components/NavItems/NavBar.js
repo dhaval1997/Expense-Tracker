@@ -13,7 +13,7 @@ const Navbar = () => {
   };
   return (
     <div className="bg-gray-600 px-4 py-2">
-      <div className="max-w-4xl mx-auto gap-5 flex items-center justify-end">
+      <div className="max-w-3xl mx-auto gap-5 flex items-center justify-end">
         <NavLink to="/" className={"me-auto"}>
           <h1 className="font-semibold text-2xl text-gray-50">
             Expense Tracker
