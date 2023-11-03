@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import Container from "../components/Container/Container";
+import NormalCard from "../components/Container/NormalCard";
 
 const Analysis = () => {
   return (
-    <div>Analysis</div>
-  )
-}
+    <Container>
+      <NormalCard>Analysis</NormalCard>
+    </Container>
+  );
+};
 
-export default Analysis
+export default Analysis;

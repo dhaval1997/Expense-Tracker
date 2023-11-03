@@ -2,12 +2,12 @@ import React from "react";
 import Container from "../components/Container/Container";
 import NormalCard from "../components/Container/NormalCard";
 
-const Account = () => {
+const Transactions = () => {
   return (
     <Container>
-      <NormalCard>Account</NormalCard>
+      <NormalCard>Transactions</NormalCard>
     </Container>
   );
 };
 
-export default Account;
+export default Transactions;

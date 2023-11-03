@@ -14,7 +14,7 @@ const BodyNavbar = () => {
       <Container>
         <NormalCard>
           <div className="flex justify-evenly">
-            <BodyNavItems title="Records" path={"records"} div={true} />
+            <BodyNavItems title="Transactions" path={"transactions"} div={true} />
             <BodyNavItems title="Analysis" path={"analysis"} div={true} />
             <BodyNavItems title="Account" path={"account"} />
           </div>

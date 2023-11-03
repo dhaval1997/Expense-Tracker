@@ -3,18 +3,20 @@ import Navbar from "../components/NavItems/NavBar";
 import BodyNavbar from "../components/NavItems/BodyNavbar";
 import AddExpense from "../components/Expense/AddExpense";
 import AddButton from "../components/Container/AddButton";
+import { Outlet } from "react-router-dom";
 
 const Root = () => {
-  const [addingExpense, setAdding] = useState(false);
+  const [adding, setAdding] = useState(false);
   const alternatingAdding = () => {
-    setAdding(!addingExpense);
+    setAdding(!adding);
   };
   return (
     <div>
-      {addingExpense && <AddExpense alternatingAdding={alternatingAdding} />}
+      {adding && <AddExpense alternatingAdding={alternatingAdding} />}
       <Navbar />
       <BodyNavbar />
-      <AddButton onClick={alternatingAdding} className="fixed right-6 bottom-6" />
+      <Outlet/>
+      <AddButton onClick={alternatingAdding} />
     </div>
   );
 };

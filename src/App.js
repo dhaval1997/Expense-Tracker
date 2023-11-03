@@ -6,7 +6,7 @@ import Root from "./pages/Root";
 import Profile from "./pages/Profile";
 import Analysis from "./pages/Analysis";
 import Account from "./pages/Account";
-import Records from "./pages/Records";
+import Transactions from './pages/Transactions'
 
 const App = () => {
   const { user } = useAuth();
@@ -23,7 +23,7 @@ const App = () => {
       >
         <Route path="analysis" element={<Analysis />} />
         <Route path="account" element={<Account />} />
-        <Route path="records" element={<Records />} />
+        <Route path="transactions" element={<Transactions />} />
       </Route>
       <Route path="profile" element={<Profile />} />
       <Route path="*" element={<Navigate to={"/"} />} />

@@ -5,7 +5,7 @@ const AddButton = ({onClick=()=>{}, className=""}) => {
     "bg-gray-700 text-gray-100 rounded px-6 py-1.5 drop-shadow-lg" + className;
   return (
     <button onClick={onClick} className={classStyle}>
-      Add Expense
+      Add
     </button>
   );
 };

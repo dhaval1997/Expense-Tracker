@@ -2,7 +2,7 @@ import React from "react";
 
 const ToggleButton = ({
   children,
-  type = "",
+  type = "button",
   onClick = () => {},
   className,
   isActive,
@@ -13,8 +13,8 @@ const ToggleButton = ({
       type={type}
       className={
         isActive
-          ? classStyle + "bg-gray-600 text-gray-100"
-          : classStyle + "text-gray-600 bg-gray-100"
+        ? classStyle + " bg-gray-500 text-gray-100"
+        : classStyle + "  text-gray-600 hover:bg-gray-100"
       }
       onClick={onClick}
     >
