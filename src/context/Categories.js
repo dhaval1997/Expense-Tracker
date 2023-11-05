@@ -5,11 +5,6 @@ export const categoriesExpense = [
       HTMLname: "receipt_long",
     },
     {
-      id: "car",
-      name: "Car",
-      HTMLname: "directions_car",
-    },
-    {
       id: "clothing",
       name: "Clothing",
       HTMLname: "styler",
@@ -64,6 +59,11 @@ export const categoriesExpense = [
       name: "Transport",
       HTMLname: "commute",
     },
+    {
+      id: "others",
+      name: "Others",
+      HTMLname: "label",
+    },
   ];
   
   export const categoriesIncome = [
@@ -86,10 +86,5 @@ export const categoriesExpense = [
       id: "salary",
       name: "Salary",
       HTMLname: "add_card",
-    },
-    {
-      id: "sale",
-      name: "Sale",
-      HTMLname: "sell",
     },
   ];

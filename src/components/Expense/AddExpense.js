@@ -1,12 +1,11 @@
-import React, { useContext, useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Modal from "../Container/Modal";
 import ToggleButton from "../Container/ToggleButton";
 import DropDown from "./DropDown";
 import ButtonPrimary from "../Container/ButtonPrimary";
 import { categoriesExpense, categoriesIncome } from "../../context/Categories";
 import { useAuth } from "../../context/AuthContext";
-import { addDoc, collection, getDocs } from "firebase/firestore";
-import { db, auth } from "../../firebase";
+import { useExpense } from "../../context/ExpenseContext";
 
 const AddExpense = ({
   alternatingAdding,
@@ -22,8 +21,12 @@ const AddExpense = ({
     time: `${new Date().toTimeString().slice(0, 5)}`,
     note: "",
   },
+  updateExpense,
 }) => {
   const { user } = useAuth();
+  console.log(user);
+  const { addExpenseToFirestore, updateExpenseData, deleteExpenseData } =
+    useExpense();
 
   const amountRef = useRef();
   const dateRef = useRef();
@@ -32,7 +35,6 @@ const AddExpense = ({
 
   const [isExpense, setExpense] = useState(expenseItem.type);
   const [defaultCategory, setCategory] = useState(expenseItem.category);
-  const [expenseList, setExpenseList] = useState([]);
 
   function toggleExpense() {
     setExpense(!isExpense);
@@ -40,33 +42,7 @@ const AddExpense = ({
   function changeDefault(data) {
     setCategory(data);
   }
-  const sortExpenseByTime = (list) => {
-    return list.sort((a, b) => {
-      return (
-        new Date(`${b.date},${b.time}`).getTime() -
-        new Date(`${a.date},${a.time}`).getTime()
-      );
-    });
-  };
 
-  const addExpenseToFirestore = async (expenseData) => {
-    if (user) {
-      try {
-        // Create a reference
-        const expensesCollection = collection(
-          db,
-          "users",
-          user.uid,
-          "expenses"
-        );
-        // Add the expense data to Firestore
-        const newExpense = await addDoc(expensesCollection, expenseData);
-        console.log("Expense added with ID: ", newExpense.id);
-      } catch (error) {
-        console.error("Error adding expense to Firestore: ", error);
-      }
-    }
-  };
   const addingExpense = async (e) => {
     e.preventDefault();
     const type = isExpense;
@@ -75,6 +51,7 @@ const AddExpense = ({
     const time = timeRef.current.value;
     const note = noteRef.current.value;
     const category = defaultCategory;
+
     if (category.id !== "categories") {
       const expense = {
         type: type,
@@ -85,39 +62,54 @@ const AddExpense = ({
         note: note,
       };
       console.log(expense);
-      addExpenseToFirestore(expense);
+      console.log(expenseItem);
+      await addExpenseToFirestore(expense);
+      alternatingAdding();
     }
   };
 
-  const fetchExpenseData = async () => {
-    if (user) {
-      try {
-        const userUid = user.uid;
-        const expensesCollection = collection(db, "users", userUid, "expenses");
+  updateExpense = async (expenseId, newData) => {
+    await updateExpenseData(expenseId, newData);
+  };
 
-        const querySnapshot = await getDocs(expensesCollection);
+  const deleteExpense = async (expense) => {
+    const { id } = expense;
+    await deleteExpenseData(id);
+    alternatingAdding();
+  };
+  const handleUpdateExpense = async () => {
+    // Capture the updated data here
+    const updatedData = {
+      type: isExpense,
+      amount: amountRef.current.value,
+      category: defaultCategory,
+      date: dateRef.current.value,
+      time: timeRef.current.value,
+      note: noteRef.current.value,
+    };
 
-        const expenses = [];
-        querySnapshot.forEach((doc) => {
-          expenses.push(doc.data());
-        });
-
-        setExpenseList(expenses);
-      } catch (error) {
-        console.error("Error fetching expense data from Firestore: ", error);
-      }
+    if (defaultCategory.id !== "categories") {
+      // Call the updateExpense function
+      updateExpense(expenseItem.id, updatedData);
+      alternatingAdding();
     }
   };
-  console.log(expenseList);
 
   useEffect(() => {
     setCategory({ id: "categories", name: "Categories", HTMLname: "label" });
-    fetchExpenseData(); // Fetch expense data when the component mounts
-  }, [user, isExpense]);
+  }, [user, isExpense, addExpenseToFirestore]);
 
   return (
     <>
       <Modal onClick={alternatingAdding}>
+        <div className="flex justify-end">
+          <button
+            onClick={alternatingAdding}
+            className="px-1.5 rounded font-semibold bg-gray-200 text-red-500 hover:bg-red-400 hover:text-gray-200"
+          >
+            X
+          </button>
+        </div>
         <h2
           className={`mb-2 text-center font-semibold text-2xl ${
             isExpense ? "text-red-500" : "text-green-600"
@@ -200,16 +192,27 @@ const AddExpense = ({
                 style={{ outline: "none" }}
               />
             </div>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="flext w-full mb-3 gap-2">
               <ButtonPrimary type="submit" className="w-full">
                 {isExpense ? "Add Expense" : "Add Income"}
               </ButtonPrimary>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
               <button
-                onClick={alternatingAdding}
-                className="py-1.5 px-8 rounded font-semibold bg-gray-200 text-red-500 hover:bg-red-400 hover:text-gray-200"
+                onClick={() => {
+                  deleteExpense(expenseItem);
+                }}
+                className="py-1.5 px-8 rounded font-semibold bg-red-200 text-red-500 hover:bg-red-400 hover:text-gray-200"
               >
-                Close
+                Delete
               </button>
+              <ButtonPrimary
+                type="submit"
+                className="w-full"
+                onClick={handleUpdateExpense}
+              >
+                Update Expense
+              </ButtonPrimary>
             </div>
           </form>
         </div>
