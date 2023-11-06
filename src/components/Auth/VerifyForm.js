@@ -1,33 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../Container/Card";
-import { useAuth } from "../../context/AuthContext";
+import {
+  sendEmailVerificationAction, 
+  verificationStatusAction, 
+} from "../../store/authActions"
 
 const VerifyForm = () => {
-  const { user, emailVerify, verificationStatus } = useAuth();
-  const [isVerificationEmailSent, setIsVerificationEmailSent] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth); // Access user from the Redux store
+  const isVerificationEmailSent = useSelector((state) => state.auth.isVerificationEmailSent); // Check if the email has been sent
+  const isLoading = useSelector((state) => state.auth.loading); // Loading state
 
   useEffect(() => {
     const checkVerificationStatus = async () => {
       if (user) {
-        const isVerified = await verificationStatus();
-        setIsLoading(false);
-        if (isVerified) {
-          setIsVerificationEmailSent(false);
-        }
-      } else {
-        setIsLoading(false);
+        dispatch(verificationStatusAction()); // Dispatch action to check verification status
       }
     };
-
     checkVerificationStatus();
-  }, [user,emailVerify, verificationStatus]);
+  }, [user, dispatch]);
 
-  const handleResendVerificationEmail = async () => {
-    if (user) {
-      await emailVerify();
-      setIsVerificationEmailSent(true);
-    }
+  const handleResendVerificationEmail = () => {
+    dispatch(sendEmailVerificationAction()); // Dispatch action to send verification email
   };
 
   return (
@@ -60,7 +55,7 @@ const VerifyForm = () => {
           )}
           <div className="flex justify-center">
             <button
-              className="bg-gray-600 py-1.5 px-4 mt-3 rounded hover:bg-gray-700 font-semibold text-gray-50"
+              className="bg-gray-600 py-1.5 px-4 mt-3 rounded hover-bg-gray-700 font-semibold text-gray-50"
               onClick={handleResendVerificationEmail}
               disabled={isVerificationEmailSent}
             >

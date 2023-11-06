@@ -4,8 +4,8 @@ import ToggleButton from "../Container/ToggleButton";
 import DropDown from "./DropDown";
 import ButtonPrimary from "../Container/ButtonPrimary";
 import { categoriesExpense, categoriesIncome } from "../../context/Categories";
-import { useAuth } from "../../context/AuthContext";
 import { useExpense } from "../../context/ExpenseContext";
+import { useSelector } from "react-redux";
 
 const AddExpense = ({
   alternatingAdding,
@@ -23,7 +23,7 @@ const AddExpense = ({
   },
   updateExpense,
 }) => {
-  const { user } = useAuth();
+  const { user } = useSelector((state) => state.auth); // Access user from the Redux store
   console.log(user);
   const { addExpenseToFirestore, updateExpenseData, deleteExpenseData } =
     useExpense();
@@ -197,23 +197,25 @@ const AddExpense = ({
                 {isExpense ? "Add Expense" : "Add Income"}
               </ButtonPrimary>
             </div>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                onClick={() => {
-                  deleteExpense(expenseItem);
-                }}
-                className="py-1.5 px-8 rounded font-semibold bg-red-200 text-red-500 hover:bg-red-400 hover:text-gray-200"
-              >
-                Delete
-              </button>
-              <ButtonPrimary
-                type="submit"
-                className="w-full"
-                onClick={handleUpdateExpense}
-              >
-                Update Expense
-              </ButtonPrimary>
-            </div>
+            {expenseItem.id && (
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={() => {
+                    deleteExpense(expenseItem);
+                  }}
+                  className="py-1.5 px-8 rounded font-semibold bg-red-200 text-red-500 hover:bg-red-400 hover:text-gray-200"
+                >
+                  Delete
+                </button>
+                <ButtonPrimary
+                  type="submit"
+                  className="w-full"
+                  onClick={handleUpdateExpense}
+                >
+                  Update Expense
+                </ButtonPrimary>
+              </div>
+            )}
           </form>
         </div>
       </Modal>

@@ -1,20 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
 import Card from "../Container/Card";
-import { useAuth } from "../../context/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import {
+  loginAction,
+  signupAction,
+  sendPasswordResetEmailAction,
+} from "../../store/authActions";
 
 const LoginForm = () => {
   const [isLogging, setIsLogging] = useState(true);
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // New state for loading
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmRef = useRef();
 
-  const { logIn, signUp, forgotPassword } = useAuth();
+  const error = useSelector((state) => state.auth.error);
 
   const toggleMode = () => {
     setIsLogging(!isLogging);
@@ -26,43 +31,34 @@ const LoginForm = () => {
     const password = passwordRef.current.value;
 
     if (isLogging) {
-      setError("");
       setIsLoading(true);
-      try {
-        await logIn(email, password);
-        navigate("/");
-      } catch (err) {
-        setError(err.message);
-      }
+      dispatch(loginAction(email, password)); // Dispatch login action
+      navigate("/");
       setIsLoading(false);
     } else {
       const confirm = confirmRef.current.value;
       if (password === confirm) {
-        setError("");
         setIsLoading(true);
-        try {
-          await signUp(email, password);
-          navigate("/auth");
-        } catch (err) {
-          setError(err.message);
-        }
+        dispatch(signupAction(email, password)); // Dispatch signup action
+        navigate("/auth");
         setIsLoading(false);
       } else {
         alert("Password does not match");
+        setIsLoading(false);
       }
     }
   };
 
   const forgotPasswordHandler = () => {
-    const userEmail = prompt("Enter your email:");
-    if (userEmail) {
-      forgotPassword(userEmail);
+    const email = prompt("Enter your email:");
+    if (email) {
+      dispatch(sendPasswordResetEmailAction(email)); // Dispatch action
     }
   };
 
   useEffect(() => {
     return () => {
-      setError("");
+      setIsLoading(false);
     };
   }, []);
 
@@ -75,12 +71,12 @@ const LoginForm = () => {
         <form onSubmit={submitHandler}>
           {isLoading && <LoadingSpinner />}
           {error && <h2 className="text-red-600">{error}</h2>}
-          <div className="mb-3 ">
+          <div className="mb-3">
             <input
               type="email"
               required
               ref={emailRef}
-              className="w-full border bg-gray-50 rounded text-gray-700 h-9 p-3 "
+              className="w-full border bg-gray-50 rounded text-gray-700 h-9 p-3"
               placeholder="Email"
             />
           </div>
@@ -91,7 +87,7 @@ const LoginForm = () => {
               name="password"
               ref={passwordRef}
               minLength={8}
-              className="w-full border bg-gray-50 rounded text-gray-700 h-9 p-3 "
+              className="w-full border bg-gray-50 rounded text-gray-700 h-9 p-3"
               placeholder="Password"
             />
           </div>
@@ -103,7 +99,7 @@ const LoginForm = () => {
                 name="confirm"
                 ref={confirmRef}
                 minLength={8}
-                className="w-full border bg-gray-50 rounded text-gray-700 h-9 p-3 "
+                className="w-full border bg-gray-50 rounded text-gray-700 h-9 p-3"
                 placeholder="Confirm Password"
               />
             </div>
@@ -111,7 +107,7 @@ const LoginForm = () => {
           <div>
             <button
               type="submit"
-              className="bg-gray-700 w-full border rounded p-1.5 hover:bg-gray-600 font-semibold text-gray-100 "
+              className="bg-gray-700 w-full border rounded p-1.5 hover:bg-gray-600 font-semibold text-gray-100"
             >
               {isLogging ? "Log In" : "Sign Up"}
             </button>
@@ -127,7 +123,7 @@ const LoginForm = () => {
       </div>
       <button
         type="submit"
-        className="bg-gray-700 w-full border rounded p-1.5 hover:bg-gray-600 font-semibold text-gray-100 "
+        className="bg-gray-700 w-full border rounded p-1.5 hover:bg-gray-600 font-semibold text-gray-100"
         onClick={toggleMode}
       >
         {isLogging

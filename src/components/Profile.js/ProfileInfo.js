@@ -1,10 +1,10 @@
 import React from "react";
 import Container from "../Container/Container";
 import NormalCard from "../Container/NormalCard";
-import { useAuth } from "../../context/AuthContext";
+import { useSelector } from "react-redux";
 
 const ProfileInfo = () => {
-  const { user } = useAuth();
+  const { user } = useSelector((state) => state.auth); // Access user from the Redux store
 
   const varified = user.emailVerified ? "Verified" : "Not Verified!";
   return (

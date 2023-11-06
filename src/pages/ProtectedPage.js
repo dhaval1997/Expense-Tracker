@@ -1,11 +1,10 @@
 import React from "react";
-import { useAuth } from "../context/AuthContext";
-import { Navigate } from "react-router-dom";
 import LoginForm from '../components/Auth/LoginForm'
 import VerifyForm from "../components/Auth/VerifyForm";
+import { useSelector } from "react-redux";
 
 const ProtectedPage = ({ children }) => {
-  let { user } = useAuth();
+  const { user } = useSelector((state) => state.auth); // Access user from the Redux store
   if (!user) {
     return <LoginForm/>
   }

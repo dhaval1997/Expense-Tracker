@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { useAuth } from "./AuthContext";
 import {
   collection,
   addDoc,
@@ -9,11 +8,12 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
+import { useSelector } from "react-redux";
 
 const ExpenseContext = createContext();
 
 export const ExpenseContextProvider = ({ children }) => {
-  const { user } = useAuth();
+  const { user } = useSelector((state) => state.auth); // Access user from the Redux store
   const [expenseList, setExpenseList] = useState([]);
   const [isAddExpenseModalOpen, setAddExpenseModalOpen] = useState(false);
 
