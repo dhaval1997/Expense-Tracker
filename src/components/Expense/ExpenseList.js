@@ -1,32 +1,26 @@
-import React, { useState } from "react";
-import { useExpense } from "../../context/ExpenseContext";
+import React, { useEffect } from "react";
 import ListItem from "./ListItem";
-import AddExpense from "./AddExpense";
+import { useDispatch, useSelector } from "react-redux";
+import { openModal } from "../../store/modalSlice";
+import { expenseLoading } from "../../store/expenseSlice";
+import { fetchExpenses } from "../../store/expenseActions";
 
 const ExpenseList = () => {
-  const {
-    expenseList,
-    updateExpenseData,
-    deleteExpenseData,
-  } = useExpense();
-  const [selectedExpense, setSelectedExpense] = useState(null);
+  const dispatch = useDispatch();
+  const { expenseList } = useSelector(
+    (state) => state.expenses
+  );
+  const userId = useSelector((state) => state.auth.user.uid);
 
   const handleEditClick = (expense) => {
-    setSelectedExpense(expense);
+    console.log("Attempting to open modal with expense", expense);
+    dispatch(openModal(expense));
   };
 
-  const handleUpdateExpense = async () => {
-    if (selectedExpense) {
-      const updatedExpense = { ...selectedExpense, ...newData };
-      await updateExpenseData(selectedExpense.id, updatedExpense);
-      setSelectedExpense(null);
-    }
-  };
-
-  const handleDeleteExpense = async () => {
-    await deleteExpenseData(selectedExpense);
-    setSelectedExpense(null);
-  };
+  useEffect(() => {
+    dispatch(expenseLoading());
+    dispatch(fetchExpenses(userId));
+  }, [userId, dispatch]);
 
   return (
     <div>
@@ -35,14 +29,6 @@ const ExpenseList = () => {
           <ListItem expense={data} key={index} onEditClick={handleEditClick} />
         ))}
       </ul>
-      {selectedExpense && (
-        <AddExpense
-          expenseItem={selectedExpense}
-          alternatingAdding={() => setSelectedExpense(null)}
-          updateExpense={handleUpdateExpense}
-          deleteExpense={handleDeleteExpense}
-        />
-      )}
     </div>
   );
 };

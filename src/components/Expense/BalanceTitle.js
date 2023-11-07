@@ -1,21 +1,30 @@
 import React from "react";
+import { useSelector } from 'react-redux';
+import { selectTotalExpenses, selectTotalIncome, selectTotalBalance } from '../../store/expenseSlice';
 
 const BalanceTitle = () => {
+
+  const totalExpenses = useSelector(selectTotalExpenses);
+  const totalIncome = useSelector(selectTotalIncome);
+  const totalBalance = useSelector(selectTotalBalance);
+
+  const balanceTextColor = totalBalance < 0 ? 'text-red-500' : 'text-green-600';
+
   return (
     <>
       <div className=" mb-3 border-b-2 pb-2">
         <div className="flex justify-around items-center text-gray-600">
           <div className="flex flex-col items-center">
             <p className="font-medium">Expense</p>
-            <p className="text-red-500">5000</p>
+            <p className="text-red-500 font-medium">₹{totalExpenses}</p>
           </div>
           <div className="flex flex-col items-center">
             <p className="font-medium">Income</p>
-            <p className="text-green-500">50000</p>
+            <p className="text-green-600 font-medium">₹{totalIncome}</p>
           </div>
           <div className="flex flex-col items-center">
             <p className="font-medium">Balance</p>
-            <p>45000</p>
+            <p className={`font-medium ${balanceTextColor}`}>₹{totalBalance}</p>
           </div>
         </div>
       </div>

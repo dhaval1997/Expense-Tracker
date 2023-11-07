@@ -6,7 +6,7 @@ import expenseReducer from "./expenseSlice";
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    expense: expenseReducer,
+    expenses: expenseReducer,
     modal: modalReducer,
   },
 });

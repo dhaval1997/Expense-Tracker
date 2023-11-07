@@ -1,4 +1,4 @@
-Sexport const categoriesExpense = [
+export const categoriesExpense = [
     {
       id: "bill",
       name: "Bill",

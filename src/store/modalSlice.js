@@ -1,18 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  isAddExpenseModalOpen: false,
-};
-
 export const modalSlice = createSlice({
   name: 'modal',
-  initialState,
+  initialState: {
+    isAddExpenseModalOpen: false,
+    editingExpense: null, // Hold the expense being edited
+  },
   reducers: {
-    openModal: (state) => {
+    openModal: (state, action) => {
       state.isAddExpenseModalOpen = true;
+      state.editingExpense = action.payload; // null for new expense, or expense object for editing
     },
     closeModal: (state) => {
       state.isAddExpenseModalOpen = false;
+      state.editingExpense = null;
     },
   },
 });
