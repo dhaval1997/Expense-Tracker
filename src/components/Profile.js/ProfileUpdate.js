@@ -1,13 +1,12 @@
 import React, { useRef } from "react";
 import Container from "../Container/Container";
 import NormalCard from "../Container/NormalCard";
-import { useSelector } from "react-redux";
-import {updateUserProfileAction} from '../../store/authActions'
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUserProfileAction } from "../../store/authActions";
 
 const ProfileUpdate = () => {
-  const { user } = useSelector((state) => state.auth); // Access user from the Redux store
-  const dispatch = useDispatch(); 
+  const { user } = useSelector((store) => store.auth); // Access user from the Redux store
+  const dispatch = useDispatch();
   console.log("user from profile", user);
   const nameRef = useRef();
   const photoRef = useRef();

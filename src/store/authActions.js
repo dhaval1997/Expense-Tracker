@@ -104,3 +104,11 @@ export const verificationStatusAction = () => async (dispatch) => {
     }
   }
 };
+
+export const emailVerificationSent = () => {
+  return { type: "EMAIL_VERIFICATION_SENT" };
+};
+
+export const passwordResetEmailSent = () => {
+  return { type: "PASSWORD_RESET_EMAIL_SENT" };
+};

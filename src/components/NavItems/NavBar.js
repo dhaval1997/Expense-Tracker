@@ -1,11 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux"; // Import useDispatch from react-redux
-import { logoutAction } from "../../store/authActions"; // Import the logout action
+import { useDispatch, useSelector } from "react-redux"; 
+import { logoutAction } from "../../store/authActions"; 
 
 const Navbar = () => {
-  const dispatch = useDispatch(); // Get the dispatch function
-  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const { user } = useSelector((store) => store.auth);
 
   const logoutHandler = async () => {
     try {
@@ -29,8 +29,8 @@ const Navbar = () => {
               to={"/profile"}
               className={({ isActive }) => {
                 return isActive
-                  ? "flex text-gray-100"
-                  : "flex text-gray-200 hover:text-gray-100";
+                  ? "flex text-gray-50"
+                  : "flex text-gray-300 hover:text-gray-100";
               }}
             >
               Profile

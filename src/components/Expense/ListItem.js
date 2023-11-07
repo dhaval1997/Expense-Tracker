@@ -11,8 +11,8 @@ const ListItem = ({ expense, onEditClick }) => {
         className="p-1 text-gray-600 hover:bg-gray-100 rounded cursor-pointer"
         onClick={handleEditClick}
       >
-        <div className="grid grid-cols-3 gap-3 items-center items-center m-1 text-gray-500">
-        <div className="flex justify-start">
+        <div className="grid grid-cols-3 gap-3 items-center m-1 text-gray-500">
+          <div className="flex justify-start">
             <p className="font-medium"> {expense.date}</p>
           </div>
           <div className="flex justify-start">

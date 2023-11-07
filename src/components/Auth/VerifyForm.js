@@ -8,9 +8,9 @@ import {
 
 const VerifyForm = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth); // Access user from the Redux store
-  const isVerificationEmailSent = useSelector((state) => state.auth.isVerificationEmailSent); // Check if the email has been sent
-  const isLoading = useSelector((state) => state.auth.loading); // Loading state
+  const { user } = useSelector((store) => store.auth); // Access user from the Redux store
+  const isVerificationEmailSent = useSelector((store) => store.auth.isVerificationEmailSent); // Check if the email has been sent
+  const isLoading = useSelector((store) => store.auth.loading); // Loading state
 
   useEffect(() => {
     const checkVerificationStatus = async () => {

@@ -19,7 +19,7 @@ const LoginForm = () => {
   const passwordRef = useRef();
   const confirmRef = useRef();
 
-  const error = useSelector((state) => state.auth.error);
+  const error = useSelector((store) => store.auth.error);
 
   const toggleMode = () => {
     setIsLogging(!isLogging);
@@ -54,6 +54,7 @@ const LoginForm = () => {
     if (email) {
       dispatch(sendPasswordResetEmailAction(email)); // Dispatch action
     }
+    alert("Password reset link has been sent to your email")
   };
 
   useEffect(() => {
