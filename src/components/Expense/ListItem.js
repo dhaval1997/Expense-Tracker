@@ -1,10 +1,15 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 const ListItem = ({ expense, onEditClick }) => {
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+
   return (
     <>
       <li
-        className="p-1 text-gray-600 hover:bg-gray-100 rounded cursor-pointer"
+        className={`p-1 text-gray-600 hover:bg-gray-100 rounded cursor-pointer ${
+          isDarkMode ? "text-gray-300" : "text-gray-600"
+        }`}
         onClick={() => {
           onEditClick(expense);
         }}
@@ -20,8 +25,12 @@ const ListItem = ({ expense, onEditClick }) => {
             <p
               className={
                 expense.type
-                  ? "font-medium text-red-500"
-                  : "font-medium text-green-600"
+                  ? `font-medium ${
+                      isDarkMode ? "text-red-500" : "text-red-700"
+                    }`
+                  : `font-medium ${
+                      isDarkMode ? "text-green-500" : "text-green-700"
+                    }`
               }
             >
               ₹{expense.amount}

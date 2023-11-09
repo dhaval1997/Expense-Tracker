@@ -8,7 +8,8 @@ const ToggleButton = ({
   isActive,
 }) => {
   const classStyle = "py-1.5 px-4 rounded font-semibold" + className;
-  return (
+  
+    return (
     <button
       type={type}
       className={

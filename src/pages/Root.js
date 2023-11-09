@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Navbar from "../components/NavItems/NavBar";
 import BodyNavbar from "../components/NavItems/BodyNavbar";
 import AddButton from "../components/Container/AddButton";
@@ -10,18 +9,15 @@ import AddExpense from "../components/Expense/AddExpense";
 const Root = () => {
   const dispatch = useDispatch();
   const isModalOpen = useSelector((state) => state.modal.isAddExpenseModalOpen);
-
-  const handleAddClick = () => {
-    dispatch(openModal(null));
-  };
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
   return (
-    <div>
+    <div className={isDarkMode ? "dark-theme" : "light-theme"}>
       {isModalOpen && <AddExpense />}
       <Navbar />
       <BodyNavbar />
       <Outlet />
-      <AddButton onClick={handleAddClick} />
+      <AddButton onClick={() => dispatch(openModal(null))} />
     </div>
   );
 };

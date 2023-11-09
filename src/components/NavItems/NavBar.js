@@ -1,11 +1,15 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux"; 
-import { logoutAction } from "../../store/authActions"; 
+import { useDispatch, useSelector } from "react-redux";
+import { logoutAction } from "../../store/authActions";
+import { toggleTheme } from "../../store/themeSlice";
+import { FaSun } from "@react-icons/all-files/fa/FaSun";
+import { FaMoon } from "@react-icons/all-files/fa/FaMoon";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
   const logoutHandler = async () => {
     try {
@@ -52,6 +56,16 @@ const Navbar = () => {
             </NavLink>
           </>
         )}
+        <button
+          onClick={() => dispatch(toggleTheme())}
+          className='text-gray-200'
+        >
+          {isDarkMode ? (
+            <FaSun /> // Light Mode icon
+          ) : (
+            <FaMoon /> // Dark Mode icon
+          )}
+        </button>
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ const BalanceTitle = () => {
   const totalBalance = useSelector(selectTotalBalance);
 
   const balanceTextColor = totalBalance < 0 ? 'text-red-500' : 'text-green-600';
+  const balanceBgColor = totalBalance < 0 ? 'bg-red-100' : 'bg-green-100';
 
   return (
     <>
@@ -28,6 +29,7 @@ const BalanceTitle = () => {
           </div>
         </div>
       </div>
+      
       <div className="my-2 border-b-2 rounded bg-gray-500 gap-3 px-3 py-1 grid grid-cols-3 items-center text-gray-50">
         <div className="flex justify-start">
           <p className="font-medium">Date</p>
