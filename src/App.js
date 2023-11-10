@@ -21,8 +21,8 @@ const App = () => {
           </ProtectedPage>
         }
       >
-        <Route path="analysis" element={<Analysis />} />
-        <Route path="account" element={<Account />} />
+        {/* <Route path="analysis" element={<Analysis />} /> */}
+        {/* <Route path="account" element={<Account />} /> */}
         <Route path="transactions" element={<Transactions />} />
         <Route path="profile" element={<Profile />} />
       </Route>

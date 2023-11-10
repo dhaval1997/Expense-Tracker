@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 const ListItem = ({ expense, onEditClick }) => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
+  const amount = parseFloat(expense.amount).toFixed(2);
   return (
     <>
       <li
@@ -33,7 +34,7 @@ const ListItem = ({ expense, onEditClick }) => {
                     }`
               }
             >
-              ₹{expense.amount}
+              ₹{amount}
             </p>
           </div>
         </div>
