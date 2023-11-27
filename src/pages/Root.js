@@ -15,7 +15,7 @@ const Root = () => {
     <div className={isDarkMode ? "dark-theme" : "light-theme"}>
       {isModalOpen && <AddExpense />}
       <Navbar />
-      <BodyNavbar />
+      {/* <BodyNavbar /> */}
       <Outlet />
       <AddButton onClick={() => dispatch(openModal(null))} />
     </div>
