@@ -18,7 +18,7 @@ const ProfileUpdate = () => {
   };
 
   return (
-    <Container>
+    <>
       <NormalCard>
         <h1 className="text-gray-600 text-center p-4 font-semibold">
           Update Profile
@@ -55,7 +55,7 @@ const ProfileUpdate = () => {
           </div>
         </form>
       </NormalCard>
-    </Container>
+    </>
   );
 };
 

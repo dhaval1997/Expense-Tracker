@@ -8,7 +8,7 @@ const ProfileInfo = () => {
 
   const varified = user.emailVerified ? "Verified" : "Not Verified!";
   return (
-    <Container>
+    <>
       <NormalCard>
         <h1 className="text-gray-600 text-center p-4 font-semibold">
           User Profile
@@ -35,7 +35,7 @@ const ProfileInfo = () => {
           </div>
         </div>
       </NormalCard>
-    </Container>
+    </>
   );
 };
 
